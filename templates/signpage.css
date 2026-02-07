@@ -1,0 +1,109 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fbe9d3;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Back Button */
+.back-button {
+    text-decoration: none;
+    color: #964b33;
+    font-size: 16px;
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+/* Heading */
+h1 {
+    color: #964b33;
+    font-size: 32px;
+}
+
+/* Signup Image */
+.signup-image {
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+form {
+    background-color: #b45335;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+label {
+    color: #fff;
+    font-size: 14px;
+    display: block;
+    text-align: left;
+    margin: 5px 0;
+}
+
+input {
+    width: 95%;
+    padding: 12px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 15px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    outline: none;
+}
+/* Checkbox */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align to the left */
+    margin-bottom: 15px;
+    gap: 8px; /* Adds spacing between checkbox and text */
+}
+
+.checkbox-container input {
+    width: 16px; /* Adjust checkbox size */
+    height: 16px;
+    margin: 0;
+}
+
+.checkbox-container label {
+    color: #fff;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container a {
+    color: #ffe4c4;
+    text-decoration: none;
+    margin-left: 4px; /* Adds a little space between text and link */
+}
+
+
+/* Signup Button */
+.signup-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffe4c4;
+    color: #964b33;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.signup-button:hover {
+    background-color: #ffcc99;
+}

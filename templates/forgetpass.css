@@ -1,0 +1,81 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fbe9d3;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Back Button */
+.back-button {
+    text-decoration: none;
+    color: #964b33;
+    font-size: 16px;
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+/* Heading */
+h1 {
+    color: #964b33;
+    font-size: 28px;
+}
+
+/* Forgot Password Image */
+.forgot-image {
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 20px;
+}
+
+/* Description */
+.description {
+    color: #964b33;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Form */
+form {
+    
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Email Input */
+input {
+    width: 95%;
+    padding: 12px;
+    border-radius: 20px;
+    border: 1px solid #964b33;
+    margin-bottom: 15px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.5);
+    color: #964b33;
+    outline: none;
+}
+
+/* Send Button */
+.send-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #b45335;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background-color: #964b33;
+}

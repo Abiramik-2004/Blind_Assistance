@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="forgetpass.css">
+    <script type="module" src="firebase-config.js"></script>
+
+<body>
+
+    <div class="container">
+        <!-- Back Button -->
+        <a href="loginpage.html" class="back-button">&larr; Back</a>
+
+        <!-- Heading -->
+        <h1>Oh No! I Forgot <br><strong>My Password</strong></h1>
+
+        <!-- Image -->
+        <img src="img/forget.png" alt="Forgot Password Illustration" class="forgot-image">
+
+        <!-- Description -->
+        <p class="description">
+            Don't worry, it happens to the best of us! <br>
+            Enter your email to reset your password!
+        </p>
+
+        <!-- Input Field -->
+        <form>
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Email Address" required>
+
+            <!-- Submit Button -->
+            <button type="submit" class="send-button">SEND</button>
+        </form>
+    </div>
+    <script type="module">
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      
+        const auth = getAuth();
+      
+        document.querySelector("form").addEventListener("submit", function(event) {
+          event.preventDefault(); // Prevent form from refreshing
+      
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+      
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              alert("Login successful!");
+              window.location.href = "dashboard.html"; // Redirect to dashboard
+            })
+            .catch((error) => {
+              alert(error.message); // Show error message
+            });
+        });
+        
+      </script>
+      
+
+</body>
+</html>

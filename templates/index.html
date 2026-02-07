@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blind Assistance</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #111;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .profile-container {
+            position: absolute;
+            top: 10px;
+            right: 20px; 
+            background: rgba(51, 51, 51, 0.8);
+            padding: 5px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .profile-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+        .profile-initials {
+            position: absolute;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background: #333;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 75px;
+            right: 20px; /* Keeps dropdown aligned to profile image */
+            background: rgba(51, 51, 51, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            display: none;
+            flex-direction: column;
+            width: 150px;
+            text-align: left;
+        }
+        .dropdown-menu p {
+            margin: 0;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .dropdown-menu p:hover {
+            background: #444;
+        }
+        .video-container {
+            flex: 0.9;
+            background: black;
+            border-radius: 20px;
+        }
+        .navigation-sectionS {
+            flex: 0.5;
+            padding: 20px;
+            background: rgba(51, 51, 51, 0.8);
+        }
+        .input-box {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background: #070707;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            margin-top: 10px;
+        }
+        .map-container {
+            width: 90%;
+            height: 50%;
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        input[type="file"] {
+            display: none;
+        }  
+    </style>  
+    
+</head>
+<body>
+
+<!-- Profile Section -->
+<div class="profile-container" id="profile">
+    <img id="profile-pic" src="" alt="Profile" style="display: none;">
+    <div id="profile-initials" class="profile-initials"></div>
+</div>
+
+<!-- Hidden File Input for Image Upload -->
+<input type="file" id="imageUpload" accept="image/*">
+
+<!-- Dropdown Menu -->
+<div class="dropdown-menu" id="dropdown-menu">
+    <p id="user-name">User</p>
+    <p onclick="logout()">Logout</p>
+</div>
+
+<div class="container">
+    <!-- Video Section -->
+    <div class="video-container">
+        <img src="{{ url_for('video_feed') }}" alt="Live Video">
+    </div>
+
+    <!-- Voice Command Section -->
+    <div class="navigation-section">
+        
+        <h2>Navigation Assistance</h2>
+        <input type="text" id="source" class="input-box" placeholder="Detecting Your Location..." readonly>
+        <input type="text" id="destination" class="input-box" placeholder="Speak Destination">
+        <button class="button" onclick="startVoiceRecognition()">Speak Destination</button>
+        <button class="button" onclick="findRoute()">Find Route</button>
+        <div id="map" class="map-container"></div>
+    </div>
+</div>
+
+<script>
+    // Fetch user data from API/database
+    async function loadUserProfile() {
+        try {
+            const response = await fetch('/get_user_profile'); // Replace with actual API endpoint
+            const userData = await response.json();
+
+            // Set username
+            document.getElementById("user-name").textContent = userData.username || 'User';
+
+            // Profile Image or Initials
+            const profilePic = document.getElementById("profile-pic");
+            const profileInitials = document.getElementById("profile-initials");
+
+            if (userData.profile_pic) {
+                profilePic.src = userData.profile_pic;
+                profilePic.style.display = "block";
+                profileInitials.style.display = "none";
+            } else {
+                profileInitials.textContent = userData.username ? userData.username.charAt(0).toUpperCase() : "U";
+                profilePic.style.display = "none";
+                profileInitials.style.display = "flex";
+            }
+        } catch (error) {
+            console.error("Failed to load user data:", error);
+        }
+    }
+
+    // Toggle Dropdown Menu
+    document.getElementById("profile").addEventListener("click", function() {
+        let menu = document.getElementById("dropdown-menu");
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    });
+
+    // Logout Function
+    function logout() {
+        fetch('/logout', { method: 'POST' }) // Replace with actual logout API
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/login'; // Redirect to login page
+                }
+            })
+            .catch(error => console.error("Logout failed:", error));
+    }
+
+    // Speech Recognition
+    function speakCommand() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.start();
+        recognition.onresult = function(event) {
+            const command = event.results[0][0].transcript.toLowerCase();
+            alert("You said: " + command);
+        };
+    }
+
+    // Open File Picker When Clicking on Profile
+    document.getElementById("profile").addEventListener("dblclick", function() {
+        document.getElementById("imageUpload").click();
+    });
+
+    // Handle Image Selection
+    document.getElementById("imageUpload").addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const profilePic = document.getElementById("profile-pic");
+                const profileInitials = document.getElementById("profile-initials");
+
+                profilePic.src = e.target.result;
+                profilePic.style.display = "block";
+                profileInitials.style.display = "none";
+
+                // TODO: Send the image to the backend for saving
+                uploadProfileImage(file);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Upload Image to Backend (Placeholder Function)
+    async function uploadProfileImage(file) {
+        const formData = new FormData();
+        formData.append("profile_image", file);
+
+        try {
+            const response = await fetch('/upload_profile_image', { // Replace with actual upload endpoint
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                console.log("Profile image uploaded successfully.");
+            } else {
+                console.error("Failed to upload profile image.");
+            }
+        } catch (error) {
+            console.error("Error uploading profile image:", error);
+        }
+    }
+
+    // Load user profile when the page loads
+    document.addEventListener("DOMContentLoaded", loadUserProfile);
+    let userLocation;
+    let map, directionsService, directionsRenderer;
+    let speechRecognition;
+
+    // Function to get user's location
+    function getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                userLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                document.getElementById("source").value = `Latitude: ${userLocation.lat}, Longitude: ${userLocation.lng}`;
+                initMap();
+            }, error => {
+                alert("Geolocation failed. Please enable location services.");
+                console.error(error);
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Initialize Google Map
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: userLocation,
+            zoom: 15
+        });
+
+        new google.maps.Marker({
+            position: userLocation,
+            map: map,
+            title: "Your Location"
+        });
+
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+    }
+
+    // Voice Recognition for Destination
+    function startVoiceRecognition() {
+        speechRecognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        speechRecognition.start();
+
+        speechRecognition.onresult = function(event) {
+            let command = event.results[0][0].transcript.toLowerCase();
+            let destinationInput = document.getElementById("destination");
+
+            if (command.includes("guide me to")) {
+                destinationInput.value = command.replace("guide me to", "").trim();
+            } else if (command.includes("take me to")) {
+                destinationInput.value = command.replace("take me to", "").trim();
+            } else {
+                alert("Please say 'Guide me to [destination]' or 'Take me to [destination]'.");
+            }
+        };
+    }
+
+    // Find Route & Provide Voice Navigation
+    function findRoute() {
+        const destination = document.getElementById("destination").value;
+
+        if (!destination) {
+            alert("Please enter a destination.");
+            return;
+        }
+
+        const request = {
+            origin: userLocation,
+            destination: destination,
+            travelMode: google.maps.TravelMode.WALKING
+        };
+
+        directionsService.route(request, (result, status) => {
+            if (status === google.maps.DirectionsStatus.OK) {
+                directionsRenderer.setDirections(result);
+                speakNavigationInstructions(result.routes[0].legs[0].steps);
+            } else {
+                alert("Unable to find route. Please check your input.");
+            }
+        });
+    }
+
+   // Convert Directions into Spoken Instructions
+function speakNavigationInstructions(steps) {
+    if (!steps || steps.length === 0) {
+        alert("No navigation steps found.");
+        return;
+    }
+
+    let utterance = new SpeechSynthesisUtterance();
+    let speechQueue = [];
+
+    // Extract step-by-step instructions
+    steps.forEach((step, index) => {
+        let instruction = step.instructions.replace(/<[^>]*>/g, ''); // Remove HTML tags
+        speechQueue.push(`Step ${index + 1}: ${instruction}`);
+    });
+
+    speechQueue.push("You have arrived at your destination."); // Final message
+
+    // Speak instructions step by step
+    function speakStep(index) {
+        if (index >= speechQueue.length) return; // Stop when all steps are spoken
+
+        utterance.text = speechQueue[index];
+        speechSynthesis.speak(utterance);
+
+        // Wait for the current speech to finish, then move to the next step
+        utterance.onend = function () {
+            speakStep(index + 1);
+        };
+    }
+
+    speakStep(0); // Start speaking from the first instruction
+}
+
+
+    // Load User Location when the page loads
+    document.addEventListener("DOMContentLoaded", getUserLocation);
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=getUserLocation"></script>
+
+
+</body>
+</html>
