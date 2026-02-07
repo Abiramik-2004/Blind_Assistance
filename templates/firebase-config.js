@@ -8,8 +8,8 @@
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyAScNZb0ubUCtuo_d0hCJaNe5wN-yKDl4w",
-    authDomain: "blindassistance-96f93.firebaseapp.com",
+    apiKey: "XXXXXXXXXXXXXX",
+    authDomain: "XXXXXX",
     projectId: "blindassistance-96f93",
     storageBucket: "blindassistance-96f93.firebasestorage.app",
     messagingSenderId: "608637949815",
