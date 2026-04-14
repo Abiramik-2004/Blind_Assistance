@@ -57,7 +57,6 @@ ECHOWAY acts as a digital companion for visually impaired users by combining AI,
 <img width="674" height="901" alt="image" src="https://github.com/user-attachments/assets/97f3381b-0c6b-452b-b4c3-c05b12e81380" />
 <img width="677" height="891" alt="image" src="https://github.com/user-attachments/assets/3cba70d2-9920-4329-be97-0d14bbf7521a" />
 <img width="623" height="847" alt="image" src="https://github.com/user-attachments/assets/aef931df-658f-4df7-9744-fc3a95d51f22" />
-<img width="623" height="847" alt="image" src="https://github.com/user-attachments/assets/6576ef83-6769-4b66-830d-a423a66faabd" />
-<img width="623" height="847" alt="image" src="https://github.com/user-attachments/assets/c981c9e7-5574-4ddd-8ceb-895ce44bb13a" />
+
 
 
