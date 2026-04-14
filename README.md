@@ -53,12 +53,23 @@ Independence in daily travel
 Conclusion:
 ECHOWAY acts as a digital companion for visually impaired users by combining AI, voice assistance, and navigation systems. It enhances safety, independence, and confidence while traveling.
 
-<img width="785" height="886" alt="image" src="https://github.com/user-attachments/assets/0781bc45-859e-4cb1-9bb2-22f9b8b74ad9" />
-<img width="674" height="901" alt="image" src="https://github.com/user-attachments/assets/97f3381b-0c6b-452b-b4c3-c05b12e81380" />
-<img width="677" height="891" alt="image" src="https://github.com/user-attachments/assets/3cba70d2-9920-4329-be97-0d14bbf7521a" />
-<img width="623" height="847" alt="image" src="https://github.com/user-attachments/assets/aef931df-658f-4df7-9744-fc3a95d51f22" />
-<img width="1623" height="743" alt="image" src="https://github.com/user-attachments/assets/d44032ea-1693-4be4-9fa4-2c5d9eda0f47" />
-<img width="1312" height="734" alt="image" src="https://github.com/user-attachments/assets/890ae60e-72da-4ca6-9490-240d55aac943" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0781bc45-859e-4cb1-9bb2-22f9b8b74ad9" width="300"/>
+  <img src="https://github.com/user-attachments/assets/97f3381b-0c6b-452b-b4c3-c05b12e81380" width="300"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3cba70d2-9920-4329-be97-0d14bbf7521a" width="300"/>
+  <img src="https://github.com/user-attachments/assets/aef931df-658f-4df7-9744-fc3a95d51f22" width="300"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d44032ea-1693-4be4-9fa4-2c5d9eda0f47" width="600"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/890ae60e-72da-4ca6-9490-240d55aac943" width="600"/>
+</p>
 
 
 
